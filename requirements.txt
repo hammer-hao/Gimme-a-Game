@@ -1,0 +1,4 @@
+flask
+blinker
+dotenv
+oauthlib
