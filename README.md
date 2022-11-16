@@ -1,2 +1,2 @@
-# Sc2Dashboard
-A Python-based web application that provides visualizations of a profile's SC2 ladder data
+# GimmeaGame
+A Python-based web application that provides users with game suggestions
