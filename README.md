@@ -1,2 +1,2 @@
-# GimmeaGame
-A Python-based web application that provides users with game suggestions
+# sc2dashboard
+A Python-based web application that searches for starcraft 2 player statistics
