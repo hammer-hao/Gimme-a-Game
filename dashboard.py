@@ -39,3 +39,7 @@ def getmatchhistory(playerid):
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     return render_template('matchhistory.html', matches=thisplayer)
+
+@app.route('/privacypolicy')
+def privacy():
+    return render_template('privacypolicy.html')
