@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<h3>Player details:</h3>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <td>
+            {{ player[1] }}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Server
+        </th>
+        {% if player[3]==1 %}
+        <td>
+            US
+        </td>
+        {% elif player[3]==2 %}
+        <td>
+            EU
+        </td>
+        {% else %}
+        <td>
+            KR
+        </td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>
+            Race
+        </th>
+        <td>
+            {{ player[8] }}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Wins
+        </th>
+        <td>
+            {{ player[6] }}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Losses
+        </th>
+        <td>
+            {{ player[7] }}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            MMR
+        </th>
+        <td>
+            {{ player[4] }}
+        </td>
+    </tr>
+</table>
+<a href="/">Back</a>
+<a href="/details/{{ player[0] }}/matchhistory">View match history</a>
+{% endblock %}

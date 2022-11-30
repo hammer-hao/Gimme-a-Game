@@ -1,27 +1,43 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request, redirect
+import mysql.connector
 import os
-from oauthlib.oauth2 import WebApplicationClient
-import requests
-import dotenv
+from dotenv import load_dotenv
 
-BATTLENET_CLIENT_ID= '728eadaf977a414a91ceed3ee1bc07d8'
-BATTLENET_CLIENT_SECRET= 'xt5RjcvTARLvJ5A6bg6wyufU8Ni5VM4r''
-secret_key= "b'6\x910\xca_\xf5\x9d3\xc6\xf74\xdbet\x9e\x0f'"
+load_dotenv()
+hostname=os.getenv('HOSTNAME')
+dbname=os.getenv('DBNAME')
+username=os.getenv('DBUSERNAME')
+pwd=os.getenv('PASSWORD')
+
+conn = mysql.connector.connect(user=username, password=pwd,
+                                 host=hostname,
+                                 database=dbname)
+mycursor = conn.cursor()
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    if current_user.is_authenticated:
-        return (
-            "<p>Hello, {}! You're logged in! Email: {}</p>"
-            "<div><p>Google Profile Picture:</p>"
-            '<img src="{}" alt="Google profile pic"></img></div>'
-            '<a class="button" href="/logout">Logout</a>'.format(
-                current_user.name, current_user.email, current_user.profile_pic
-            )
-        )
+    if request.method=="POST":
+        query = "SELECT * FROM players_s52 WHERE name LIKE '%" + request.form['name'] + "%'"
+        mycursor.execute(query)
+        thisresult=mycursor.fetchall()
+        return render_template('index.html', playerlist=thisresult)
     else:
-        return '<a class="button" href="/login">Google Login</a>'
+        return render_template('index.html', playerlist=[])
+
+@app.route("/details/<int:playerid>/<int:server>")
+def getdetails(playerid, server):
+    query = "SELECT * FROM players_s52 WHERE playerid = " + str(playerid) + " AND region =" + str(server)
+    mycursor.execute(query)
+    thisplayer=mycursor.fetchall()
+    return render_template('details.html', player=thisplayer[0])
+
+@app.route('/details/<int:playerid>/matchhistory')
+def getmatchhistory(playerid):
+    query = 'SELECT * FROM matches WHERE playerid=' + str(playerid)
+    mycursor.execute(query)
+    thisplayer=mycursor.fetchall()
+    return render_template('matchhistory.html', matches=thisplayer)
 if __name__=="__main__":
     app.run(debug=True)

@@ -1,1 +1,34 @@
 {% extends 'base.html' %}
+{% block head %}
+<title>sc2dashboard</title>
+{% endblock%}
+{% block body %}
+<div class="searchbar">
+<form action="/" method="POST">
+    <input type="text" name="name" id="content">
+    <input type="submit" value="search">
+</form>
+</div>
+{% if playerlist|length < 1 %}
+<h3 style="text-align:center">Search for players here!</h3>
+{% else %}
+<div class="results">
+<table>
+    <tr>
+        <th>Name</th>
+        <th>MMR</th>
+        <th>Race</th>
+        <th></th>
+    </tr>
+    {% for player in playerlist %}
+    <tr>
+        <td>{{ player[1] }}</td>
+        <td>{{ player[4] }}</td>
+        <td>{{ player[8] }}</td>
+        <td><a href="/details/{{ player[0] }}/{{ player[3] }}">View details</a></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endif %}
+{% endblock %}

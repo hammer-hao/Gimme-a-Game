@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<table>
+        <tr>
+            <th>
+                Result
+            </th>
+            <th>
+                type
+            </th>
+            <th>
+                Length
+            </th>
+            <th>
+                Map
+            </th>
+            <th>
+                MMR change
+            </th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>
+                {{ match[8] }}
+            </td>
+            <td>
+                {{ match[7] }}
+            </td>
+            <td>
+                {{ match[10] }}
+            </td>
+            <td>
+                {{ match[6] }}
+            </td>
+            <td>
+                lol dont have this yet
+            </td>
+        </tr>
+        {% endfor %}
+</table>
+{% endblock %}
