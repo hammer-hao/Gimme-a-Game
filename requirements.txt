@@ -6,3 +6,6 @@ oauthlib==3.2.0
 
 ##MySQL connection
 mysql.connector==2.2.9
+
+## Running asychronus tasks
+celery==5.2.7
