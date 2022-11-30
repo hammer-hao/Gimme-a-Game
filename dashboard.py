@@ -39,5 +39,3 @@ def getmatchhistory(playerid):
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     return render_template('matchhistory.html', matches=thisplayer)
-if __name__=="__main__":
-    app.run(debug=True)
