@@ -11,6 +11,10 @@
 </div>
 {% if playerlist|length < 1 %}
 <h3 style="text-align:center">Search for players here!</h3>
+{% elif playerlist=='empty' %}
+<h3 style="text-align:center">Player name cannot be empty!</h3>
+{% elif playerlist=='notfound' %}
+<h3 style="text-align:center">Player not found!</h3>
 {% else %}
 <div class="results">
 <table>

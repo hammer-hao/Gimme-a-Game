@@ -19,10 +19,16 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method=="POST":
-        query = "SELECT * FROM players_s52 WHERE name LIKE '%" + request.form['name'] + "%'"
-        mycursor.execute(query)
-        thisresult=mycursor.fetchall()
-        return render_template('index.html', playerlist=thisresult)
+        if len(request.form['name'])==0:
+            return render_template('index.html', playerlist='empty')
+        else:
+            query = "SELECT * FROM players_s52 WHERE name LIKE '%" + request.form['name'] + "%'"
+            mycursor.execute(query)
+            thisresult=mycursor.fetchall()
+            if len(thisresult)>0:
+                return render_template('index.html', playerlist=thisresult)
+            else:
+                return render_template('index.html', playerlist='notfound')
     else:
         return render_template('index.html', playerlist=[])
 
