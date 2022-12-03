@@ -11,13 +11,16 @@
                 type
             </th>
             <th>
-                Length
-            </th>
-            <th>
                 Map
             </th>
             <th>
-                MMR change
+                Opponent
+            </th>
+            <th>
+                Opponent Race
+            </th>
+            <th>
+                Date
             </th>
         </tr>
         {% for match in matches %}
@@ -29,13 +32,16 @@
                 {{ match[7] }}
             </td>
             <td>
-                {{ match[10] }}
-            </td>
-            <td>
                 {{ match[6] }}
             </td>
             <td>
-                lol dont have this yet
+                <a href='/details/{{ match[14] }}/{{ match[5] }}'>{{ match[15] }}</a>
+            </td>
+            <td>
+                {{ match[16] }}
+            </td>
+            <td>
+                {{ match[10] }}
             </td>
         </tr>
         {% endfor %}

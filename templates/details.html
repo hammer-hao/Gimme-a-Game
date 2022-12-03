@@ -2,6 +2,9 @@
 {% block head %}
 {% endblock %}
 {% block body %}
+{% if player=='notfound' %}
+<h3>Player not found!</h3>
+{% else %}
 <h3>Player details:</h3>
 <table>
     <tr>
@@ -63,6 +66,7 @@
         </td>
     </tr>
 </table>
+{% endif %}
 <a href="/">Back</a>
 <a href="/details/{{ player[0] }}/matchhistory">View match history</a>
 {% endblock %}

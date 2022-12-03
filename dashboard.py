@@ -22,7 +22,7 @@ def index():
         if len(request.form['name'])==0:
             return render_template('index.html', playerlist='empty')
         else:
-            query = "SELECT * FROM players_s52 WHERE name LIKE '%" + request.form['name'] + "%'"
+            query = "SELECT * FROM players_s52 WHERE name LIKE '%" + request.form['name'] + "%'" + " ORDER BY mmr DESC"
             mycursor.execute(query)
             thisresult=mycursor.fetchall()
             if len(thisresult)>0:
@@ -37,11 +37,16 @@ def getdetails(playerid, server):
     query = "SELECT * FROM players_s52 WHERE playerid = " + str(playerid) + " AND region =" + str(server)
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
-    return render_template('details.html', player=thisplayer[0])
+    try:
+        tplayer=thisplayer[0]
+        return render_template('details.html', player=tplayer)
+    except IndexError:
+        return render_template('details.html', player='notfound')
+    
 
 @app.route('/details/<int:playerid>/matchhistory')
 def getmatchhistory(playerid):
-    query = 'SELECT * FROM matches WHERE playerid=' + str(playerid)
+    query = 'SELECT * FROM pairedmatches WHERE playerid=' + str(playerid) + " ORDER BY date DESC"
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     return render_template('matchhistory.html', matches=thisplayer)
