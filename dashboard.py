@@ -34,7 +34,7 @@ def index():
 
 @app.route("/details/<int:playerid>/<int:server>")
 def getdetails(playerid, server):
-    query = "SELECT * FROM players_s52 WHERE playerid = " + str(playerid) + " AND region =" + str(server)
+    query = "SELECT * FROM players_s52 WHERE playerid = " + str(playerid)
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     try:
