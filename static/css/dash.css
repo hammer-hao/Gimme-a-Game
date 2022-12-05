@@ -53,28 +53,38 @@ table{
 #bottomlinks{
     text-align: center;
 }
-#playerlisttable{
+.playerlisttable{
     border-collapse: collapse;
     margin: auto;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    border:solid black 1px;
+    border:solid rgb(77, 77, 77) 2px;
     border-radius:6px;
 }
-#playerlisttable th{
+.playerlisttable th{
     background-color: #d4f4ff;
     color: #160051;
     text-align: left;
     padding: 12px 15px;
+    border: 1px solid lightgray;
 }
-#playerlisttable tr:hover {
+.playerlisttable tr:hover {
     background-color: rgb(238, 238, 238) !important;
 }
-#playerlisttable tbody tr:nth-of-type(even) {
+.playerlisttable tbody tr:nth-of-type(even) {
     background-color: #e1f7ff;
 }
-#playerlisttable td {
+.playerlisttable td {
     padding: 12px 15px;
+    border: 1px solid grey;
+}
+.mapfigure{
+    display:none
+}
+.mapcell:hover .mapfigure{
+    display: block;
+    width: 150px;
+    height: auto;
 }
