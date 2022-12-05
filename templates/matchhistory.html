@@ -2,7 +2,7 @@
 {% block head %}
 {% endblock %}
 {% block body %}
-<table>
+<table class="playerlisttable">
         <tr>
             <th>
                 Result
@@ -25,14 +25,39 @@
         </tr>
         {% for match in matches %}
         <tr>
-            <td>
+            {% if match[8]=="Win" %}
+            <td style="background-color: rgb(206, 255, 218);">
                 {{ match[8] }}
             </td>
+            {% elif match[8]=="Loss" %}
+            <td style="background-color: rgb(255, 206, 206);">
+                {{ match[8] }}
+            </td>
+            {% else %}
+                {{ match[8] }}
+            {% endif %}
             <td>
                 {{ match[7] }}
             </td>
-            <td>
+            <td class="mapcell" style="width: 150px;">
                 {{ match[6] }}
+                {% if match[6]=='Cosmic Sapphire' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Cosmic_Sapphire.jpeg') }}">
+                {% elif match[6]=='Moondance' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Moondance.jpeg') }}">
+                {% elif match[6]=='Stargazers' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Stargazers.jpeg') }}">
+                {% elif match[6]=='Data-C' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Data-C.jpeg') }}">
+                {% elif match[6]=='Tropical Sacrifice' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Tropical_Sacrifice.jpg') }}">
+                {% elif match[6]=='Inside and Out' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Inside_and_Out.jpg') }}">
+                {% elif match[6]=='Waterfall' %}
+                <img class="mapfigure" src="{{ url_for('static', filename='images/Waterfall.jpeg') }}">
+                {% else %}
+                <p>What is this map bruh</p>
+                {% endif %}
             </td>
             <td>
                 <a href='/details/{{ match[14] }}/{{ match[5] }}'>{{ match[15] }}</a>
