@@ -3,21 +3,24 @@
 <title>sc2dashboard</title>
 {% endblock%}
 {% block body %}
-<div class="searchbar">
-<form action="/" method="POST">
-    <input type="text" name="name" id="content">
-    <input type="submit" value="search">
+<div class="search__container">
+<form class="search__form" action="/" method="POST">
+    <!--<input type="text" name="name" id="content">
+    <input type="submit" value="search">-->
+    <input class="search__input" type="text" name="name" placeholder="Search for any player! e.g. Serral">
+    <button type="submit" class="search__submit">
+        Search
+    </button>
 </form>
 </div>
 {% if playerlist|length < 1 %}
-<h3 style="text-align:center">Search for players here!</h3>
 {% elif playerlist=='empty' %}
 <h3 style="text-align:center">Player name cannot be empty!</h3>
 {% elif playerlist=='notfound' %}
 <h3 style="text-align:center">Player not found!</h3>
 {% else %}
 <div class="results">
-<table>
+<table id="playerlisttable">
     <tr>
         <th>Name</th>
         <th>MMR</th>

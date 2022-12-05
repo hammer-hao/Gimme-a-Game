@@ -3,10 +3,39 @@ body{
 }
 #pagetitle{
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
-.searchbar{
-    margin: auto;
-    width: 50%;
+.search__container {
+    padding: 10px;
+}
+.search__form{
+    width:310px;
+    margin:auto
+}
+.search__input{
+    width: 215px;
+    border: 3px solid #1c006f;
+    height: 28px;
+    border-radius: 5px;
+    outline: none;
+    color: #1c006f;
+    font-style: oblique;
+    margin-right: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.search__submit{
+    width: 75px;
+    border: 3px solid #1c006f;
+    height: 36px;
+    border-radius: 5px;
+    background: #1c006f;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 form{
     text-align: center;
@@ -23,4 +52,29 @@ table{
 }
 #bottomlinks{
     text-align: center;
+}
+#playerlisttable{
+    border-collapse: collapse;
+    margin: auto;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border:solid black 1px;
+    border-radius:6px;
+}
+#playerlisttable th{
+    background-color: #d4f4ff;
+    color: #160051;
+    text-align: left;
+    padding: 12px 15px;
+}
+#playerlisttable tr:hover {
+    background-color: rgb(238, 238, 238) !important;
+}
+#playerlisttable tbody tr:nth-of-type(even) {
+    background-color: #e1f7ff;
+}
+#playerlisttable td {
+    padding: 12px 15px;
 }
