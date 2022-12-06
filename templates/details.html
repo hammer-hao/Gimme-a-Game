@@ -5,8 +5,8 @@
 {% if player=='notfound' %}
 <h3>Player not found!</h3>
 {% else %}
-<h3>Player details:</h3>
-<table>
+<h3 class="title">Player details:</h3>
+<table class="playerlisttable">
     <tr>
         <th>
             Name
@@ -67,6 +67,16 @@
     </tr>
 </table>
 {% endif %}
-<a href="/">Back</a>
-<a href="/details/{{ player[0] }}/matchhistory">View match history</a>
+<div class="playermethods">
+    <a href="/">
+    <div class="linkcell">
+        <span>Back</span>
+    </div>
+    </a>
+    <a href="/details/{{ player[0] }}/matchhistory">
+        <div class="linkcell">
+            <span>View match history</span>
+        </div>
+    </a>
+</div>
 {% endblock %}
