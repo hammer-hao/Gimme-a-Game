@@ -4,9 +4,12 @@ blinker==1.4
 python-dotenv==0.21.0
 oauthlib==3.2.0
 gunicorn==20.1.0
+scikit-learn==1.1.3
 
 ##MySQL connection
 mysql.connector==2.2.9
+sqlalchemy==1.4.32
 
 ## Running asychronus tasks
 celery==5.2.7
+tqdm==4.62.0
