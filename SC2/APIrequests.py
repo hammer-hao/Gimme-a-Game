@@ -11,7 +11,7 @@ Michael Hao
 #Importing necessary modules
 import pandas as pd #for data frames
 from joblib import Parallel, delayed # for running parallel requests
-import sc2
+from SC2 import sc2
 
 #By calling update1v1ladder() on different servers and different seasons, we can update the current standings
 #Calling fromladderlist in the sc2 module to create a full list of ladderids

@@ -5,7 +5,7 @@ This module defines the getladder() and updateladderinfo() functions
 
 @author: hammerhao
 """
-import APIkey
+from SC2 import APIkey
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -57,16 +57,30 @@ class ladder:
                         player_realm = player['teamMembers'][0]["realm"]
                         player_region = player['teamMembers'][0]["region"]
                         try:
+                            player_race = player['teamMembers'][0]['favoriteRace']
+                        except KeyError:
+                            player_race = 'unknown'
+                        try:
                             player_mmr = player["mmr"]
                         except KeyError:
                             player_mmr = 0
+                        try:
+                            player_wins = player['wins']
+                        except KeyError:
+                            player_wins = 0
+                        try:
+                            player_losses = player['losses']
+                        except KeyError:
+                            player_losses = 0
                         player_details=[player_id,
                                         player_name,
                                         player_realm,
                                         player_region,
                                         player_mmr,
+                                        player_wins,
+                                        player_losses,
                                         str(str(self.league)+" "+str(self.tier)),
-                                        ]
+                                        player_race]
                         playerlist.append(player_details)
                 return playerlist
             else:
@@ -76,31 +90,3 @@ class ladder:
         else:
             print("error while retrieving initial match data from " + str(self.ladderid)+" :")
             print(ladder_response)
-    def getwinloss(self):
-        ladder_url = ("https://"+
-                      str(self.server)+
-                      ".api.blizzard.com/sc2/legacy/ladder/"+
-                      str(APIkey.region_id[str(self.server)])+
-                      "/"+
-                      str(self.ladderid)
-            )
-        winloss_response = mrequest.get(ladder_url, params=APIkey.token)
-        if winloss_response.status_code == 200:
-            print("request successful for ladderid " + str(self.ladderid))
-            allplayers = winloss_response.json()["ladderMembers"]
-            playerwinls = []
-            for player in allplayers:
-                    playerid = player["character"]["id"]
-                    wins = player["wins"]
-                    losses = player["losses"]
-                    try:
-                        race = player["favoriteRaceP1"]
-                    except KeyError:
-                        race = "Unknown"
-                    player_dict = {playerid: [wins, losses, race]}
-                    playerwinls.append(player_dict)
-            return playerwinls
-        else:
-            print("error while requesting data for laderid "+str(self.ladderid))
-            print(winloss_response)
-            

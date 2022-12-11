@@ -7,7 +7,8 @@ Created on Tue Nov  8 16:30:30 2022
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-import ladders, players, APIkey
+from SC2 import ladders, players, APIkey
+from joblib import Parallel, delayed
 
 #import the retry module that allows us to resend requests and skip bad requests if necessary
 mrequest = requests.Session()
@@ -31,8 +32,7 @@ def getladder(season, region, leagueid, teamtype, queueid):
                   str(leagueid)
         )
     #save the response to league_response
-    league_response = mrequest.get(league_url, params={"locale": "en_US",
-                    "access_token": "EUrUiVHJusINLRsGFrLa1ktsci47NAEQry"})
+    league_response = mrequest.get(league_url, params=APIkey.token)
     #Check if the response is 200 OK
     if league_response.status_code==200:
         print("request successful for " + region + " league " + str(leagueid) +
@@ -80,25 +80,24 @@ def fromtiers_getladderid(data_of_entire_ladder, leagueid, tier):
     else:
         print("divisions do not exist for " + str (APIkey.ladder_id[leagueid]) + 
               str(tier))
-        
-def update_playerstats(ladderidlist):
-    playerlist = []
-    for ladder in ladderidlist:
-        thisladder = ladders.ladder(ladder[0], ladder[3], ladder[1], ladder[2])
-        thisplayerlist = thisladder.getplayers()
-        playerlist = playerlist + thisplayerlist
-    return playerlist
+def thisladder_updatestats(this_ladder):
+    thisladder = ladders.ladder(this_ladder[0], this_ladder[3], this_ladder[1], this_ladder[2])
+    thisplayerlist = thisladder.getplayers()
+    if thisplayerlist is None:
+        pass
+    else:
+        return thisplayerlist     
 
-def update_playerWL(ladderidlist):
-    playerlist = []
-    for ladder in ladderidlist:
-        thisladder = ladders.ladder(ladder[0], ladder[3], ladder[1], ladder[2])
-        thisplayerlist = thisladder.getwinloss()
-        try:
-            playerlist = playerlist + thisplayerlist
-        except TypeError:
-            pass
-    return playerlist
+def update_playerstats(ladderidlist):
+    playerlist = Parallel(n_jobs=10, 
+                        verbose=10)(delayed(thisladder_updatestats)
+                                    (indivladder) for indivladder in ladderidlist)
+    fullplayerlist=[]
+    for ladder in playerlist: 
+        if ladder is not None:
+            for player in ladder:
+                fullplayerlist.append(player)
+    return fullplayerlist
 
 def getmatchhistory(player_entry):
     player = players.player(player_entry[0], player_entry[1], player_entry[5],
