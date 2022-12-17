@@ -21,7 +21,7 @@ pwd=os.getenv('PASSWORD')
 conn = mysql.connector.connect(user=username, password=pwd,
                                  host=hostname,
                                  database=dbname)
-mycursor = conn.cursor()
+mycursor = conn.cursor(buffered=True,dictionary=True)
 
 engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
 				.format(host=hostname, db=dbname, user=username, pw=pwd))
@@ -52,16 +52,23 @@ mmr_df=pd.DataFrame(region_player_mmr_data, columns=['playerid', 'race', (str(da
 mmr_df.to_sql(('mmrhistorytemp'+region_code), engine, if_exists='replace', index=False)
 
 #merging
-query='SELECT lastupdated FROM lastupdate'+'eu'
+query=('SELECT * FROM lastupdate'+'eu')
 mycursor.execute(query)
-last_updated=mycursor.fetchall()[0][0]
+response=mycursor.fetchall()
+last_updated=response[0]['lastupdated']
 merging=('CREATE TABLE IF NOT EXISTS mmrlive'+str(date)+' AS'+ 
         ' (SELECT * FROM mmrlive'+str(last_updated)+' LEFT OUTER JOIN mmrhistorytemp'+'eu'+' USING (playerid, race)'+
         ' UNION SELECT * FROM mmrlive'+str(last_updated)+' RIGHT OUTER JOIN mmrhistorytemp'+'eu'+' USING (playerid, race))')
 mycursor.execute(merging)
-temp=mycursor.fetchall()
-drop=('DROP TABLE mmrlive'+str(last_updated)+'; DROP TABLE mmrhistorytemp'+'eu')
+conn.commit()
+
+#drop the tmporary tables
+drop=('DROP TABLE mmrlive'+str(last_updated))
 mycursor.execute(drop)
+conn.commit()
+drop2=('DROP TABLE mmrhistorytemp'+'eu')
+mycursor.execute(drop2)
+conn.commit()
 
 #Saving the last updated date at the database
 date_df=pd.DataFrame({'lastupdated':date}, index=[0])
