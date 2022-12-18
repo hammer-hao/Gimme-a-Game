@@ -75,7 +75,7 @@ def getmmrhistory(playerid):
     print(thisdate)
     lastupdated=thisdate[0][0]
     mmrquery = 'SELECT * FROM mmrlive' + str(lastupdated) + ' WHERE playerid='+ str(playerid)
-    mmrcursor = get_db.cursor(dictionary=True)
+    mmrcursor = get_db().cursor(dictionary=True)
     mmrcursor.execute(mmrquery)
     mmr=mmrcursor.fetchall()
     datesraw=list(mmr[0].keys())[2:]
