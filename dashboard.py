@@ -66,15 +66,20 @@ def getmatchhistory(playerid):
     thisplayer=mycursor.fetchall()
     return render_template('matchhistory.html', matches=thisplayer)
 
-@app.route('/details/<int:playerid>/mmrhistory')
-def getmmrhistory(playerid):
+@app.route('/details/<int:playerid>/<int:server>/mmrhistory')
+def getmmrhistory(playerid, server):
+    server_dict={
+        1:'us',
+        2:'eu'
+    }
+    servername=server_dict[server]
     mycursor = get_db().cursor(buffered=True)
-    datequery = 'SELECT lastupdated from lastupdateeu'
+    datequery = 'SELECT lastupdated from lastupdate'+servername
     mycursor.execute(datequery)
     thisdate = mycursor.fetchall()
     print(thisdate)
     lastupdated=thisdate[0][0]
-    mmrquery = 'SELECT * FROM mmrlive' + str(lastupdated) + ' WHERE playerid='+ str(playerid)
+    mmrquery = 'SELECT * FROM mmrlive' + str(lastupdated) + servername + ' WHERE playerid='+ str(playerid)
     mmrcursor = get_db().cursor(dictionary=True)
     mmrcursor.execute(mmrquery)
     mmr=mmrcursor.fetchall()

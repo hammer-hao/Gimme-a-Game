@@ -154,6 +154,7 @@ table{
 }
 a, a:visited{
     text-decoration: none;
+    color:inherit;
 }
 .searcherrormessage{
     margin: auto;
@@ -173,4 +174,20 @@ a, a:visited{
     margin: auto;
     width: 600px;
     height: 300px;
+}
+.maintitle{
+    border-radius: 10px;
+    -webkit-transition: background-color 0.3s ease-out;
+    -moz-transition: background-color 0.3s ease-out;
+    -o-transition: background-color 0.3s ease-out;
+    -ms-transition: background-color 0.3s ease-out;
+    display: inline-block;
+    margin: auto;
+    padding: 5px;
+}
+.maintitle:hover{
+    background-color: rgb(214, 255, 255);
+}
+.titlecontainer{
+    text-align: center;
 }
