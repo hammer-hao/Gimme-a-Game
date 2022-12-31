@@ -170,10 +170,12 @@ a, a:visited{
     filter: opacity(50%);
     box-shadow: 0 0 50px 50px #d4e4ff inset
 }
-.chart{
+#mmrchart{
+    display: inline-block;
     margin: auto;
     width: 600px;
     height: 300px;
+    padding: 20px;
 }
 .maintitle{
     border-radius: 10px;

@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.0/chart.min.js" integrity="sha512-xemBn324HMu/8XzlHvoVKvDdTmVLCZelF4mlovpiLO8wwfz6zpMysv2f8WfqUWX/g2IuAGErdqytAnYgN70uNw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
 {% block body %}
-<div class="chart">
+<div id="mmrchart">
     <canvas id="myChart"></canvas>
 </div>
 
@@ -19,7 +19,8 @@
         datasets: [{
           label: 'MMR',
           data: {{ ratings | safe }},
-          borderWidth: 1
+          borderWidth: 1,
+          tension: 0.25
         }]
       },
       options: {
