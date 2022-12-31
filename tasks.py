@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
 load_dotenv()
-hostname=os.getenv('HOSTNAME')
+hostname=os.getenv('DBHOSTNAME')
 dbname=os.getenv('DBNAME')
 username=os.getenv('DBUSERNAME')
 pwd=os.getenv('PASSWORD')
@@ -39,8 +39,9 @@ def update_mmr(region_code):
         response=mycursor.fetchall()
         last_updated=response[0]['lastupdated']
         merging=('CREATE TABLE IF NOT EXISTS mmrlive'+str(date)+region_code+' AS'+ 
-                ' (SELECT * FROM mmrlive'+str(last_updated)+region_code+' LEFT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race)'+
-                ' UNION SELECT * FROM mmrlive'+str(last_updated)+region_code+' RIGHT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race))')
+                ' SELECT * FROM mmrlive'+str(last_updated)+region_code+' LEFT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race)'+
+                ' UNION ALL SELECT * FROM mmrlive'+str(last_updated)+region_code+' RIGHT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race) WHERE '+
+                'mmrlive'+str(last_updated)+region_code+'.'+str(last_updated)+' IS NULL')
         mycursor.execute(merging)
         conn.commit()
 
