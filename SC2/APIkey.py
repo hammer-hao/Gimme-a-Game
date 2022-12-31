@@ -18,7 +18,6 @@ region_idr = {1: "us",
 ladder_id = {0:"Bronze", 1:"Silver", 2:"Gold", 3:"Platinum",
              4:"Diamond", 5:"Masters", 6:"Grandmaster"}
 
-
 load_dotenv()
 clientid = os.getenv('CLIENTID')
 secret = os.getenv('SECRET')
