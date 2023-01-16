@@ -15,9 +15,9 @@ from SC2 import sc2
 
 #By calling update1v1ladder() on different servers and different seasons, we can update the current standings
 #Calling fromladderlist in the sc2 module to create a full list of ladderids
-ladderid_list= {'eu':sc2.formladderlist(sc2.update1v1ladder("eu", 52), "eu"),
-                'us':sc2.formladderlist(sc2.update1v1ladder("us", 52), "us"),
-                'kr':sc2.formladderlist(sc2.update1v1ladder("kr", 52), "kr")}
+ladderid_list= {'eu':sc2.formladderlist(sc2.update1v1ladder("eu", 53), "eu"),
+                'us':sc2.formladderlist(sc2.update1v1ladder("us", 53), "us"),
+                'kr':sc2.formladderlist(sc2.update1v1ladder("kr", 53), "kr")}
 
 #save the ladderid list to ladder.csv
 pd.DataFrame(ladderid_list).to_csv('ladder.csv')
