@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
 load_dotenv()
-hostname=os.getenv('HOSTNAME')
+hostname=os.getenv('DBHOSTNAME')
 dbname=os.getenv('DBNAME')
 username=os.getenv('DBUSERNAME')
 pwd=os.getenv('PASSWORD')
@@ -22,7 +22,7 @@ engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
 
 #Getting players mmr data
 def update_mmr(region_code):
-        ladderid_list= sc2.formladderlist(sc2.update1v1ladder(region_code, 53), region_code)
+        ladderid_list= sc2.formladderlist(sc2.update1v1ladder(region_code, APIkey.season), region_code)
         region_player_full_data = sc2.update_playerstats(ladderid_list)
         region_player_mmr_data = [[int(player[0]), player[8], player[4]] for player in region_player_full_data]
 
@@ -39,8 +39,9 @@ def update_mmr(region_code):
         response=mycursor.fetchall()
         last_updated=response[0]['lastupdated']
         merging=('CREATE TABLE IF NOT EXISTS mmrlive'+str(date)+region_code+' AS'+ 
-                ' (SELECT * FROM mmrlive'+str(last_updated)+region_code+' LEFT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race)'+
-                ' UNION SELECT * FROM mmrlive'+str(last_updated)+region_code+' RIGHT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race))')
+                ' SELECT * FROM mmrlive'+str(last_updated)+region_code+' LEFT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race)'+
+                ' UNION ALL SELECT * FROM mmrlive'+str(last_updated)+region_code+' RIGHT OUTER JOIN mmrhistorytemp'+region_code+' USING (playerid, race) WHERE '+
+                'mmrlive'+str(last_updated)+region_code+'.'+str(last_updated)+' IS NULL')
         mycursor.execute(merging)
         conn.commit()
 

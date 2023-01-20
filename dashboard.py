@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 load_dotenv()
-hostname=os.getenv('HOSTNAME')
+hostname=os.getenv('DBHOSTNAME')
 dbname=os.getenv('DBNAME')
 username=os.getenv('DBUSERNAME')
 pwd=os.getenv('PASSWORD')
@@ -66,8 +66,8 @@ def getmatchhistory(playerid):
     thisplayer=mycursor.fetchall()
     return render_template('matchhistory.html', matches=thisplayer)
 
-@app.route('/details/<int:playerid>/<int:server>/mmrhistory')
-def getmmrhistory(playerid, server):
+@app.route('/details/<int:playerid>/<int:server>/<string:race>/mmrhistory')
+def getmmrhistory(playerid, server, race):
     server_dict={
         1:'us',
         2:'eu'
@@ -79,14 +79,20 @@ def getmmrhistory(playerid, server):
     thisdate = mycursor.fetchall()
     print(thisdate)
     lastupdated=thisdate[0][0]
-    mmrquery = 'SELECT * FROM mmrlive' + str(lastupdated) + servername + ' WHERE playerid='+ str(playerid)
+    mmrquery = 'SELECT * FROM mmrlive' + str(lastupdated) + servername + ' WHERE playerid='+ str(playerid) + ' AND race="'+race+'"'
     mmrcursor = get_db().cursor(dictionary=True)
     mmrcursor.execute(mmrquery)
     mmr=mmrcursor.fetchall()
-    datesraw=list(mmr[0].keys())[2:]
-    date = [datetime.utcfromtimestamp(int(thistime)).strftime('%Y-%m-%d') for thistime in datesraw]
-    values=list(mmr[0].values())[2:]
-    return render_template('mmr.html', labels=date, ratings=values)
+    try:
+        datesraw=list(mmr[0].keys())[2:]
+        date = [datetime.utcfromtimestamp(int(thistime)).strftime('%Y-%m-%d') for thistime in datesraw]
+        values=list(mmr[0].values())[2:]
+        query = "SELECT * FROM players_s52 WHERE playerid=" + str(playerid) + ' AND region=' + str(server) + ' AND race="'+race+'"'
+        mycursor.execute(query)
+        thisplayer=mycursor.fetchall()
+        return render_template('mmr.html', labels=date, ratings=values, player=thisplayer)
+    except IndexError:
+        return render_template('error.html', message='No mmr history found!')
 
 @app.route('/privacypolicy')
 def privacy():

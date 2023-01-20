@@ -11,13 +11,13 @@ Michael Hao
 #Importing necessary modules
 import pandas as pd #for data frames
 from joblib import Parallel, delayed # for running parallel requests
-from SC2 import sc2
+from SC2 import sc2, APIkey
 
 #By calling update1v1ladder() on different servers and different seasons, we can update the current standings
 #Calling fromladderlist in the sc2 module to create a full list of ladderids
-ladderid_list= {'eu':sc2.formladderlist(sc2.update1v1ladder("eu", 52), "eu"),
-                'us':sc2.formladderlist(sc2.update1v1ladder("us", 52), "us"),
-                'kr':sc2.formladderlist(sc2.update1v1ladder("kr", 52), "kr")}
+ladderid_list= {'eu':sc2.formladderlist(sc2.update1v1ladder("eu", sc2.APIkey.season), "eu"),
+                'us':sc2.formladderlist(sc2.update1v1ladder("us", sc2.APIkey.season), "us"),
+                'kr':sc2.formladderlist(sc2.update1v1ladder("kr", sc2.APIkey.season), "kr")}
 
 #save the ladderid list to ladder.csv
 pd.DataFrame(ladderid_list).to_csv('ladder.csv')

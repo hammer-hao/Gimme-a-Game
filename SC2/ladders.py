@@ -49,6 +49,7 @@ class ladder:
                 )
             ladder_response2 = mrequest.get(mmr_url, params=APIkey.token)
             if ladder_response2.status_code==200:
+                print('secondary request successful')
                 response_list = ladder_response2.json()["ladderTeams"]
                 playerlist = []
                 for player in response_list:
