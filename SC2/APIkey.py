@@ -28,3 +28,5 @@ data = {
 response = requests.post('https://oauth.battle.net/token', data=data, auth=(clientid, secret))
 
 token = {"access_token":response.json()['access_token']}
+
+season=54

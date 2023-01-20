@@ -22,7 +22,7 @@ engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
 
 #Getting players mmr data
 def update_mmr(region_code):
-        ladderid_list= sc2.formladderlist(sc2.update1v1ladder(region_code, 53), region_code)
+        ladderid_list= sc2.formladderlist(sc2.update1v1ladder(region_code, APIkey.season), region_code)
         region_player_full_data = sc2.update_playerstats(ladderid_list)
         region_player_mmr_data = [[int(player[0]), player[8], player[4]] for player in region_player_full_data]
 
