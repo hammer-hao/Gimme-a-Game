@@ -35,7 +35,7 @@ def index():
         if len(request.form['name'])==0:
             return render_template('index.html', playerlist='empty')
         else:
-            query = "SELECT * FROM players_s52 WHERE name LIKE '%" + request.form['name'] + "%'" + " ORDER BY mmr DESC"
+            query = "SELECT * FROM processedplayers WHERE name LIKE '%" + request.form['name'] + "%'" + " ORDER BY mmr DESC"
             mycursor.execute(query)
             thisresult=mycursor.fetchall()
             if len(thisresult)>0:
@@ -48,7 +48,7 @@ def index():
 @app.route("/details/<int:playerid>/<int:server>")
 def getdetails(playerid, server):
     mycursor = get_db().cursor(buffered=True)
-    query = "SELECT * FROM players_s52 WHERE playerid = " + str(playerid)
+    query = "SELECT * FROM processedplayers WHERE playerid = " + str(playerid)
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     try:
@@ -87,7 +87,7 @@ def getmmrhistory(playerid, server, race):
         datesraw=list(mmr[0].keys())[2:]
         date = [datetime.utcfromtimestamp(int(thistime)).strftime('%Y-%m-%d') for thistime in datesraw]
         values=list(mmr[0].values())[2:]
-        query = "SELECT * FROM players_s52 WHERE playerid=" + str(playerid) + ' AND region=' + str(server) + ' AND race="'+race+'"'
+        query = "SELECT * FROM processedplayers WHERE playerid=" + str(playerid) + ' AND region=' + str(server) + ' AND race="'+race+'"'
         mycursor.execute(query)
         thisplayer=mycursor.fetchall()
         return render_template('mmr.html', labels=date, ratings=values, player=thisplayer)
