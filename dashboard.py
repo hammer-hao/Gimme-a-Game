@@ -61,7 +61,7 @@ def getdetails(playerid, server):
 @app.route('/details/<int:playerid>/matchhistory')
 def getmatchhistory(playerid):
     mycursor = get_db().cursor(buffered=True)
-    query = 'SELECT * FROM pairedmatches WHERE playerid=' + str(playerid) + " ORDER BY date DESC"
+    query = 'SELECT * FROM processedmatches WHERE playerid=' + str(playerid) + " ORDER BY date DESC"
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     return render_template('matchhistory.html', matches=thisplayer)
