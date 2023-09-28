@@ -87,7 +87,7 @@ def getmmrhistory(playerid, server, race):
         datesraw=list(mmr[0].keys())[2:]
         date = [datetime.utcfromtimestamp(int(thistime)).strftime('%Y-%m-%d') for thistime in datesraw]
         values=list(mmr[0].values())[2:]
-        query = "SELECT * FROM processedplayers WHERE playerid=" + str(playerid) + ' AND region=' + str(server) + ' AND race="'+race+'"'
+        query = "SELECT * FROM players_us WHERE playerid=" + str(playerid) + ' AND region=' + str(server) + ' AND race="'+race+'"'
         mycursor.execute(query)
         thisplayer=mycursor.fetchall()
         return render_template('mmr.html', labels=date, ratings=values, player=thisplayer)
