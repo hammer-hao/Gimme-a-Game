@@ -35,7 +35,7 @@ def index():
         if len(request.form['name'])==0:
             return render_template('index.html', playerlist='empty')
         else:
-            query = "SELECT * FROM processedplayers WHERE name LIKE '%" + request.form['name'] + "%'" + " ORDER BY mmr DESC"
+            query = "SELECT * FROM players_us WHERE name LIKE '%" + request.form['name'] + "%'" + " ORDER BY mmr DESC"
             mycursor.execute(query)
             thisresult=mycursor.fetchall()
             if len(thisresult)>0:
@@ -48,7 +48,7 @@ def index():
 @app.route("/details/<int:playerid>/<int:server>")
 def getdetails(playerid, server):
     mycursor = get_db().cursor(buffered=True)
-    query = "SELECT * FROM processedplayers WHERE playerid = " + str(playerid)
+    query = "SELECT * FROM players_us WHERE playerid = " + str(playerid)
     mycursor.execute(query)
     thisplayer=mycursor.fetchall()
     try:

@@ -7,6 +7,7 @@ Created on Tue Nov  8 16:18:30 2022
 import os
 from dotenv import load_dotenv
 import requests
+from bs4 import BeautifulSoup
 
 region_id = {"us":1,
              "eu":2,
@@ -29,4 +30,12 @@ response = requests.post('https://oauth.battle.net/token', data=data, auth=(clie
 
 token = {"access_token":response.json()['access_token']}
 
-season=54
+def getseason(region):
+    #for specifics on this part, see the battle.net API documentations on starcraft 2
+    season_url =  ("https://eu.api.blizzard.com/sc2/ladder/season/"+
+                  str(region))
+    #save the response to league_response
+    league_response = requests.get(season_url, params=token)
+    return league_response.json()['seasonId']
+
+season=getseason(1)
